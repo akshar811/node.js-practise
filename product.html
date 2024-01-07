@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" id="create">
+      <input type="text" name="title" id="title" placeholder="title" />
+      <input
+        type="text"
+        name="description"
+        id="description"
+        placeholder="description"
+      />
+      <input type="text" name="img" id="img" placeholder="img" />
+      <input type="submit" name="" id="" />
+    </form>
+
+    <div id="box"></div>
+  </body>
+  
+  <script>
+    document.getElementById("create").addEventListener("submit",(e)=>{
+        e.preventDefault();
+
+      let user = {
+         title : document.getElementById("title").value,
+        description : document.getElementById("description").value,
+        img : document.getElementById("img").value
+
+      }
+      console.log(user);
+       fetch(`http://localhost:8090/user/product`,{
+          method:"POST",
+          headers : {"content-type" : "application/json"},
+          body : JSON.stringify(user)
+       })
+       .then((res)=>res.json())
+       .then((data)=>{
+        console.log(data);
+        alert("succesfully created product");
+       })
+    })
+  </script>
+
+  <script>
+
+        const display = (data)=>{
+            document.getElementById("box").innerHTML = " "
+            data.map((ele)=>{
+                img = document.createElement("img");
+                img.src = ele.img;
+                title = document.createElement("h1");
+                title.innerHTML = ele.title;
+                description = document.createElement("h2");
+                description.innerHTML = ele.description;
+
+                let div = document.createElement("div");
+                div.append(img , title , description);
+                document.getElementById("box").append(div)
+            })
+        }
+
+
+      fetch(`http://localhost:8090/user/all`)
+      .then((res)=> res.json())
+      .then((data)=>{
+        console.log(data);
+        display(data);
+      })
+      .catch((error)=>console.log(error))
+  </script>
+
+</html>

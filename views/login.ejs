@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/user/login" method="post" id="login">
+      <input type="text" name="email" id="email" placeholder="email" />
+      <input type="text" name="password" id="password" placeholder="password" />
+      <input type="submit" />
+    </form>
+    <div id="box1"></div>
+  </body>
+  <script>
+    const ui = (data) => {
+      document.getElementById("box1").innerHTML = "";
+      data.map((ele) => {
+        let username = document.createElement("h1");
+        username.innerHTML = ele.username;
+        let email = document.createElement("h2");
+        email.innerHTML = ele.email;
+        let div = document.createElement("div");
+        div.append(username, email);
+        document.getElementById("box1").append(div);
+      })
+    }
+
+    fetch("/user/userdata")
+    .then((res)=>res.json())
+     .then((data)=>{
+        console.log(data);
+        ui(data);
+     })
+
+      .catch((error) => console.log(error))
+  </script>
+</html>

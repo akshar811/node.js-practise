@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>home page</h1>
+    <div id="box"></div>
+</body>
+<script>
+    const display = (data)=>{
+        document.getElementById("box").innerHTML = "";
+        data.map((ele)=>{
+           let img = document.createElement("img")
+            img.src = ele.img 
+           let title = document.createElement("h1")
+            title.innerHTML = ele.title
+            let description = document.createElement("h2")
+            description.innerHTML = ele.description
+            let btn = document.createElement("button")
+            btn.innerHTML = "delete";
+            let div = document.createElement("div")
+            div.append(img , title , description , btn)
+            document.getElementById("box").append(div)
+        })
+     }
+
+      fetch("/user/products")
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+          display(data);
+        });
+
+</script>
+</html>

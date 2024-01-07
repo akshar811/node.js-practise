@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box div img{
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/user/product" method="post">
+        <input type="text" name="title" id="title" placeholder="title" />
+        <input
+          type="text"
+          name="description"
+          id="description"
+          placeholder="description"
+        />
+        <input type="text" name="img" id="img" placeholder="img" />
+        <input type="submit" name="" id="" />
+      </form>
+    <div id="box"></div>
+</body>
+<script>
+     fetch("/user/all")
+    .then((res)=>res.json())
+     .then((data)=>{
+        display(data);
+     })
+
+   const deleteproduct = (id) => {
+      fetch(`/user/delete/${id}`, {
+        method: "delete",
+      }).catch((error) => console.log(error));
+    };
+
+     const display = (data)=>{
+        document.getElementById("box").innerHTML = "";
+        data.map((ele)=>{
+           let img = document.createElement("img")
+            img.src = ele.img 
+           let title = document.createElement("h1")
+            title.innerHTML = ele.title
+            let description = document.createElement("h2")
+            description.innerHTML = ele.description
+            let btn = document.createElement("button")
+            btn.innerHTML = "delete";
+            btn.addEventListener("click",()=>deleteproduct(ele._id))
+            let div = document.createElement("div")
+            div.append(img , title , description , btn)
+            document.getElementById("box").append(div)
+        })
+     }
+    
+</script>
+</html>
